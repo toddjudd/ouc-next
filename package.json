@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently -n \"prisma,next\" \"npx prisma studio\" \"npx next dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -29,6 +29,7 @@
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
     "autoprefixer": "^10.4.8",
+    "concurrently": "^7.4.0",
     "eslint": "8.18.0",
     "eslint-config-next": "12.2.3",
     "postcss": "^8.4.14",
