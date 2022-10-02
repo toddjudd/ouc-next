@@ -1,36 +1,42 @@
+// @/src/pages/sign-up.tsx
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { trpc } from '../utils/trpc';
-import { SignIn, signInSchema } from '../utils/auth';
+import Link from 'next/link';
+import { useCallback } from 'react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCallback } from 'react';
-import { signIn } from 'next-auth/react';
 
-type TechnologyCardProps = {
-  name: string;
-  description: string;
-  documentation: string;
-};
+import { signUpSchema, SignUp } from '../utils/auth';
+import { trpc } from '../utils/trpc';
 
-const Home: NextPage = () => {
-  const { register, handleSubmit } = useForm<SignIn>({
-    resolver: zodResolver(signInSchema),
+const SignUp: NextPage = () => {
+  const router = useRouter();
+  const { register, handleSubmit } = useForm<SignUp>({
+    resolver: zodResolver(signUpSchema),
   });
 
-  const onSubmit = useCallback(async (data: SignIn) => {
-    await signIn('credentials', { ...data, callbackUrl: '/dashboard' });
-  }, []);
+  const { mutateAsync } = trpc.useMutation(['user.signUp']);
+
+  const onSubmit = useCallback(
+    async (data: SignUp) => {
+      const result = await mutateAsync(data);
+      if (result.status === 201) {
+        router.push('/');
+      }
+    },
+    [mutateAsync, router]
+  );
 
   const onInvalid = useCallback((errors: any) => {
     console.log('invalid', errors);
   }, []);
 
   return (
-    <>
+    <div>
       <Head>
-        <title>Ouc App</title>
-        <meta name='description' content='Job Tracking' />
+        <title>OUC - Register</title>
+        <meta name='description' content='Register OUC User' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
@@ -72,8 +78,8 @@ const Home: NextPage = () => {
           </button>
         </form>
       </main>
-    </>
+    </div>
   );
 };
 
-export default Home;
+export default SignUp;

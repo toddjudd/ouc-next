@@ -46,13 +46,19 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
+  salt          String?
+  password      String
   image         String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   accounts      Account[]
   sessions      Session[]
+  Jobs          Job[]
+  Customers     Customer[]
 }
 
 model VerificationToken {
@@ -61,4 +67,44 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Job {
+  id                 String   @id @default(cuid())
+  name               String
+  type               String
+  address            String
+  city               String
+  state              String
+  zip                String
+  lat                Float
+  lng                Float
+  customerRefference String
+  estStartDate       DateTime
+  dueDate            DateTime
+  completeDate       DateTime
+  invoicedDate       DateTime
+  status             String
+  notes              String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  createdBy          User     @relation(fields: [createdById], references: [id])
+  createdById        String
+}
+
+model Customer {
+  id          String   @id @default(cuid())
+  name        String
+  address     String
+  city        String
+  state       String
+  zip         String
+  lat         Float
+  lng         Float
+  phone       String
+  email       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdById String
 }
