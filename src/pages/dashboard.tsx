@@ -1,12 +1,6 @@
 import type { NextPage } from 'next';
 import { useSession, signOut } from 'next-auth/react';
 
-import { requireAuth } from '../utils/auth';
-
-export const getServerSideProps = requireAuth(async (ctx) => {
-  return { props: {} };
-});
-
 const Dashboard: NextPage = () => {
   const { data } = useSession();
 
@@ -38,3 +32,5 @@ const Dashboard: NextPage = () => {
     </div>
   );
 };
+
+export default Dashboard;

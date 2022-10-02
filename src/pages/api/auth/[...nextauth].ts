@@ -1,7 +1,6 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from '../../../server/db/client';
-import { trpc } from '../../../utils/trpc';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { signInSchema } from '../../../utils/auth';
 
@@ -71,6 +70,8 @@ export const authOptions: NextAuthOptions = {
     },
 
     session: async ({ session, token }) => {
+      console.log('session', session);
+      console.log('token', token);
       if (token) {
         session.id = token.id;
       }
