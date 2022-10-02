@@ -24,7 +24,7 @@ export const userRouter = createRouter().mutation('signUp', {
     const result = await prisma.user.create({
       data: {
         email: input.email,
-        password: input.password,
+        password: hashedPassword,
       },
     });
     return { status: 201, message: 'User created', result: result };

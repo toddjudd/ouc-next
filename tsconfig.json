@@ -21,8 +21,7 @@
     "next-auth.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.js",
-    "next.config.mjs"
+    "**/*.js"
   ],
   "exclude": ["node_modules"]
 }

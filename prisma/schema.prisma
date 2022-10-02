@@ -51,7 +51,6 @@ model User {
   email         String?    @unique
   emailVerified DateTime?
   salt          String?
-  password      String
   image         String?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
