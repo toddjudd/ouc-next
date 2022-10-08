@@ -5,7 +5,7 @@ import { SignIn, signInSchema } from '../utils/auth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
 type TechnologyCardProps = {
   name: string;
@@ -14,6 +14,7 @@ type TechnologyCardProps = {
 };
 
 const Home: NextPage = () => {
+  const session = useSession();
   const { register, handleSubmit } = useForm<SignIn>({
     resolver: zodResolver(signInSchema),
   });
@@ -49,6 +50,7 @@ const Home: NextPage = () => {
           }}>
           Sign Up
         </button>
+        <pre>{JSON.stringify(session, null, 2)}</pre>
         {/* <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
           <div className='mb-6'>
             <label
